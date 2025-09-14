@@ -1,0 +1,29 @@
+name: Auto Label
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  auto-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label issues and PRs
+        uses: actions/labeler@v4
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yml
+
+      - name: Add size labels to PRs
+        if: github.event_name == 'pull_request'
+        uses: codelytv/pr-size-labeler@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          xs_label: 'size/xs'
+          s_label: 'size/s'
+          m_label: 'size/m'
+          l_label: 'size/l'
+          xl_label: 'size/xl'
+          message_if_xl: 'This PR is very large. Consider breaking it down into smaller PRs.'

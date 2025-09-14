@@ -1,0 +1,35 @@
+documentation:
+  - '**/*.md'
+  - 'docs/**/*'
+
+terraform:
+  - 'terraform/**/*'
+  - '**/*.tf'
+  - '**/*.tfvars'
+
+scripts:
+  - 'scripts/**/*'
+  - '**/*.sh'
+
+kubernetes:
+  - 'manifests/**/*'
+  - '**/*.yaml'
+  - '**/*.yml'
+
+cloudformation:
+  - 'cloudformation/**/*'
+
+github-actions:
+  - '.github/workflows/**/*'
+
+security:
+  - 'SECURITY.md'
+  - 'manifests/security/**/*'
+
+monitoring:
+  - 'manifests/monitoring/**/*'
+
+dependencies:
+  - 'package*.json'
+  - 'requirements*.txt'
+  - 'Dockerfile*'

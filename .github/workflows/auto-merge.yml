@@ -1,0 +1,19 @@
+name: Auto-merge Dependabot PRs
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Auto-merge Dependabot PRs
+        uses: pascalgn/merge-action@v0.15.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          merge_method: squash
+          merge_commit_title: "chore: {pull_request_title} ({pull_request_number})"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
