@@ -1,191 +1,139 @@
-# Contributing to AWS EKS Cluster CLI
+# Contributing to AWS EKS Cluster AWSCLI
 
 Thank you for your interest in contributing! This document provides guidelines for contributing to this project.
 
-## Code of Conduct
-
-This project adheres to a code of conduct. By participating, you are expected to uphold this code.
-
-## How to Contribute
+## 🤝 How to Contribute
 
 ### Reporting Issues
+- Use the [bug report template](.github/ISSUE_TEMPLATE/bug_report.yml) for bugs
+- Use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.yml) for enhancements
+- Search existing issues before creating new ones
 
-Before creating an issue, please:
-1. Check existing issues to avoid duplicates
-2. Use the issue template if available
-3. Provide detailed information about the problem
-4. Include steps to reproduce the issue
-5. Specify your environment (OS, AWS CLI version, etc.)
+### Development Process
 
-### Suggesting Enhancements
-
-Enhancement suggestions are welcome! Please:
-1. Check if the enhancement has already been suggested
-2. Provide a clear description of the enhancement
-3. Explain why this enhancement would be useful
-4. Consider the scope and complexity
-
-### Pull Requests
-
-1. **Fork the repository** and create your branch from `main`
-2. **Make your changes** following the coding standards
-3. **Test your changes** thoroughly
-4. **Update documentation** if needed
-5. **Submit a pull request** with a clear description
-
-#### Pull Request Process
-
-1. Ensure your code follows the project's coding standards
-2. Update the README.md if you change functionality
-3. Add tests for new features
-4. Ensure all tests pass
-5. Update the CHANGELOG.md
-6. Request review from maintainers
-
-## Development Setup
-
-### Prerequisites
-
-- AWS CLI v2.0+
-- kubectl v1.28+
-- Helm v3.12+
-- jq v1.6+
-- shellcheck (for linting)
-- yamllint (for YAML validation)
-
-### Local Development
-
+#### 1. Fork and Clone
 ```bash
-# Clone the repository
-git clone https://github.com/uldyssian-sh/aws-eks-cluster-awscli.git
+git clone https://github.com/YOUR_USERNAME/aws-eks-cluster-awscli.git
 cd aws-eks-cluster-awscli
-
-# Set up development environment
-make dev-setup
-
-# Run linting
-make lint
-
-# Test your changes
-make test
 ```
 
-## Coding Standards
+#### 2. Create Feature Branch
+```bash
+git checkout -b feature/your-feature-name
+```
+
+#### 3. Make Changes
+- Follow existing code style and conventions
+- Add tests for new functionality
+- Update documentation as needed
+
+#### 4. Test Your Changes
+```bash
+# Validate shell scripts
+shellcheck scripts/*.sh
+
+# Test configurations
+bash scripts/validate-config.sh --dry-run
+```
+
+#### 5. Commit and Push
+```bash
+git add .
+git commit -m "feat: add your feature description"
+git push origin feature/your-feature-name
+```
+
+#### 6. Create Pull Request
+- Use descriptive title and description
+- Reference related issues
+- Ensure CI/CD pipeline passes
+
+## 📋 Code Standards
 
 ### Shell Scripts
-
-- Use `#!/usr/bin/env bash` shebang
-- Enable strict mode: `set -euo pipefail`
-- Use meaningful variable names
+- Use `#!/bin/bash` shebang
+- Follow [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
+- Include error handling with `set -euo pipefail`
 - Add comments for complex logic
-- Follow shellcheck recommendations
-- Use consistent indentation (2 spaces)
 
 ### YAML Files
-
-- Use 2 spaces for indentation
-- Follow yamllint rules
-- Use meaningful names for resources
-- Add appropriate labels and annotations
+- Use 2-space indentation
+- Validate with yamllint
+- Follow Kubernetes conventions
 
 ### Documentation
+- Update README.md for new features
+- Add inline comments for complex configurations
+- Include examples and use cases
 
-- Use clear, concise language
-- Provide examples where helpful
-- Keep documentation up to date
-- Follow Markdown best practices
+## 🏷️ Commit Convention
 
-## Testing
+Use [Conventional Commits](https://www.conventionalcommits.org/):
 
-### Manual Testing
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `style:` - Code style changes
+- `refactor:` - Code refactoring
+- `test:` - Test additions/changes
+- `chore:` - Maintenance tasks
 
-Before submitting changes:
-1. Test script functionality
-2. Verify documentation accuracy
-3. Check for breaking changes
-4. Test cleanup procedures
+## 🔍 Code Review Process
 
-### Automated Testing
+1. **Automated Checks**: CI/CD pipeline must pass
+2. **Peer Review**: At least one maintainer approval required
+3. **Testing**: Manual testing in development environment
+4. **Documentation**: Ensure documentation is updated
 
-Run the test suite:
-```bash
-# Run all tests
-make test
+## 🚀 Release Process
 
-# Run specific tests
-./tests/test-cluster.sh cluster
-./tests/test-cluster.sh nodes
-```
+- Releases follow [Semantic Versioning](https://semver.org/)
+- Automated releases via GitHub Actions
+- Release notes generated automatically
+- Tagged releases for stable versions
 
-## Security
+## 💡 Feature Development Guidelines
 
-### Security Considerations
+### Cost Optimization Features
+- Benchmark performance impact
+- Provide cost analysis and projections
+- Include monitoring and alerting
 
-- Never commit sensitive information
-- Use placeholder values in examples
-- Follow AWS security best practices
-- Implement least privilege principles
+### Security Features
+- Follow security best practices
+- Include vulnerability scanning
+- Provide compliance documentation
 
-### Reporting Security Issues
+### Multi-region Features
+- Test across multiple AWS regions
+- Consider latency and availability
+- Document regional limitations
 
-Please report security vulnerabilities privately to the maintainers.
+## 🤔 Questions and Support
 
-## Release Process
+- **General Questions**: Use [GitHub Discussions](../../discussions)
+- **Bug Reports**: Use [Issues](../../issues)
+- **Feature Requests**: Use [Issues](../../issues) with feature template
+- **Security Issues**: Email maintainers directly
 
-1. Update version numbers
-2. Update CHANGELOG.md
-3. Create release notes
-4. Tag the release
-5. Update documentation
+## 📜 Code of Conduct
 
-## Style Guide
+This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you agree to uphold this code.
 
-### Commit Messages
+## 🏆 Recognition
 
-Use conventional commit format:
-```
-type(scope): description
+Contributors will be recognized in:
+- README.md contributors section
+- Release notes for significant contributions
+- GitHub contributor statistics
 
-[optional body]
-
-[optional footer]
-```
-
-Types:
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes
-- `refactor`: Code refactoring
-- `test`: Test changes
-- `chore`: Maintenance tasks
-
-### Branch Naming
-
-- `feature/description` - New features
-- `fix/description` - Bug fixes
-- `docs/description` - Documentation updates
-- `refactor/description` - Code refactoring
-
-## Getting Help
-
-### Resources
+## 📚 Resources
 
 - [AWS EKS Documentation](https://docs.aws.amazon.com/eks/)
 - [Kubernetes Documentation](https://kubernetes.io/docs/)
 - [AWS CLI Documentation](https://docs.aws.amazon.com/cli/)
+- [Shell Scripting Best Practices](https://google.github.io/styleguide/shellguide.html)
 
-### Contact
+---
 
-- Create an issue for questions
-- Join discussions in pull requests
-- Check existing documentation
-
-## Recognition
-
-Contributors will be recognized in:
-- README.md contributors section
-- Release notes
-- CHANGELOG.md
-
-Thank you for contributing to make this project better!
+**Thank you for contributing to the AWS EKS automation ecosystem!** 🌟

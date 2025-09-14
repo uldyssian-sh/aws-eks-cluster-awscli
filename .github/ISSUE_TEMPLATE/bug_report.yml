@@ -1,0 +1,68 @@
+name: 🐛 Bug Report
+description: Report a bug or issue with EKS deployment
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the form below.
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of the EKS scripts are you using?
+      placeholder: v1.0.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      description: What environment are you deploying to?
+      options:
+        - AWS (us-east-1)
+        - AWS (us-west-2)
+        - AWS (eu-west-1)
+        - AWS (other region)
+        - Local development
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear description of what the bug is
+      placeholder: Describe the issue you're experiencing
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Run script '...'
+        2. Configure '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and Error Messages
+      description: Please paste any relevant logs or error messages
+      render: shell
