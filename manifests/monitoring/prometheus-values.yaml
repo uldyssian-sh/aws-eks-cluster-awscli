@@ -20,7 +20,7 @@ prometheus:
 
 grafana:
   enabled: true
-  adminPassword: "admin123"
+  adminPassword: "${GRAFANA_ADMIN_PASSWORD:-changeme123!}"
   persistence:
     enabled: true
     storageClassName: gp2

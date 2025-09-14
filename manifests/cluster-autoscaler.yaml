@@ -158,7 +158,7 @@ spec:
             # NOTE: Replace CLUSTER_NAME with your actual EKS cluster name
             # yamllint disable-line rule:line-length
             # Example: --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/my-cluster  # yamllint disable-line rule:line-length
-            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/CLUSTER_NAME  # yamllint disable-line rule:line-length
+            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/${CLUSTER_NAME}  # yamllint disable-line rule:line-length
             - --balance-similar-node-groups
             - --skip-nodes-with-system-pods=false
           volumeMounts:

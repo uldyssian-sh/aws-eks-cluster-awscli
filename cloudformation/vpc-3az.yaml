@@ -13,6 +13,9 @@ Parameters:
   Region:
     Type: String
     Default: eu-central-1
+    AllowedValues:
+      - eu-central-1
+    Description: AWS Region (currently only eu-central-1 supported)
   AzLetters:
     Type: CommaDelimitedList
     Default: "a,b,c"

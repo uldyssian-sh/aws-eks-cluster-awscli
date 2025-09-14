@@ -32,9 +32,11 @@ else
 fi
 
 echo -e "${CYAN}Installing EBS CSI Driver...${NC}"
-aws eks create-addon \
+if ! aws eks create-addon \
   --cluster-name "${CLUSTER_NAME}" \
   --addon-name aws-ebs-csi-driver \
-  --region "${AWS_REGION}" || true
+  --region "${AWS_REGION}"; then
+    echo "Warning: EBS CSI Driver addon installation failed or already exists"
+fi
 
 echo -e "${GREEN}Add-ons installed successfully!${NC}"
