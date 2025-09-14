@@ -4,7 +4,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: gp2
+          storageClassName: gp3
           accessModes:
             - "ReadWriteOnce"
           resources:
@@ -20,10 +20,10 @@ prometheus:
 
 grafana:
   enabled: true
-  adminPassword: "${GRAFANA_ADMIN_PASSWORD:-changeme123!}"
+  adminPassword: "${GRAFANA_ADMIN_PASSWORD}"
   persistence:
     enabled: true
-    storageClassName: gp2
+    storageClassName: gp3
     size: 10Gi
   resources:
     requests:
@@ -39,7 +39,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: gp2
+          storageClassName: gp3
           accessModes:
             - "ReadWriteOnce"
           resources:

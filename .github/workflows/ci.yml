@@ -16,7 +16,7 @@ jobs:
       run: |
         set -e
         if command -v shellcheck >/dev/null 2>&1; then
-          find . -name "*.sh" -exec shellcheck {} \; || true
+          find . -name "*.sh" -exec shellcheck {} \;
         else
           echo "Warning: shellcheck not available"
         fi
@@ -25,7 +25,7 @@ jobs:
       run: |
         set -e
         if command -v yamllint >/dev/null 2>&1; then
-          find . -name "*.yml" -o -name "*.yaml" | xargs yamllint || true
+          find . -name "*.yml" -o -name "*.yaml" | xargs yamllint
         else
           echo "Warning: yamllint not available"
         fi
@@ -65,10 +65,10 @@ jobs:
         echo "Automated release from CI/CD pipeline" > release_notes.txt
     
     - name: Create Release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v${{ github.run_number }}
-        release_name: Release v${{ github.run_number }}
+        name: Release v${{ github.run_number }}
         body_path: release_notes.txt

@@ -6,8 +6,14 @@ CYAN="\033[0;36m"; GREEN="\033[0;32m"; NC="\033[0m"
 echo -e "${CYAN}=== Install Monitoring Stack (Prometheus + Grafana) ===${NC}"
 
 echo -e "${CYAN}Adding Prometheus Helm repository...${NC}"
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
+if ! helm repo add prometheus-community https://prometheus-community.github.io/helm-charts; then
+    echo "Error: Failed to add Prometheus Helm repository"
+    exit 1
+fi
+if ! helm repo update; then
+    echo "Error: Failed to update Helm repositories"
+    exit 1
+fi
 
 echo -e "${CYAN}Creating monitoring namespace...${NC}"
 kubectl create namespace monitoring --dry-run=client -o yaml | kubectl apply -f -

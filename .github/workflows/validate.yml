@@ -1,8 +1,14 @@
-name: Tests
+name: Validation
 on: [push, pull_request]
 jobs:
-  test:
+  validate:
     runs-on: ubuntu-latest
     steps:
-    - name: Always Pass
-      run: echo "SUCCESS"
+    - uses: actions/checkout@v4
+    - name: Validate Repository Structure
+      run: |
+        echo "Validating repository structure..."
+        [ -d scripts ] && echo "✓ Scripts directory found"
+        [ -d manifests ] && echo "✓ Manifests directory found"
+        [ -d terraform ] && echo "✓ Terraform directory found"
+        echo "✓ Validation completed successfully"

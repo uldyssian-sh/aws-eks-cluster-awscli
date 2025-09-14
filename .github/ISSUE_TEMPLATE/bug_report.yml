@@ -66,3 +66,5 @@ body:
       label: Logs and Error Messages
       description: Please paste any relevant logs or error messages
       render: shell
+    validations:
+      required: true
