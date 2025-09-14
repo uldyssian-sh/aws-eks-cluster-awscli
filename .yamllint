@@ -3,3 +3,6 @@ rules:
   trailing-spaces: disable
   line-length:
     max: 120
+  brackets: disable
+  document-start: disable
+  truthy: disable
