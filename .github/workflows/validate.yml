@@ -8,7 +8,10 @@ jobs:
     - name: Validate Repository Structure
       run: |
         echo "Validating repository structure..."
-        [ -d scripts ] && echo "✓ Scripts directory found"
-        [ -d manifests ] && echo "✓ Manifests directory found"
-        [ -d terraform ] && echo "✓ Terraform directory found"
+        if [ ! -d scripts ]; then echo "❌ Scripts directory missing" && exit 1; fi
+        if [ ! -d manifests ]; then echo "❌ Manifests directory missing" && exit 1; fi
+        if [ ! -d terraform ]; then echo "❌ Terraform directory missing" && exit 1; fi
+        echo "✓ Scripts directory found"
+        echo "✓ Manifests directory found"
+        echo "✓ Terraform directory found"
         echo "✓ Validation completed successfully"
