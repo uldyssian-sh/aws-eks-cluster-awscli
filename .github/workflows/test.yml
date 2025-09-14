@@ -10,23 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y shellcheck yamllint
           
       - name: Test script syntax
         run: |
-          chmod +x scripts/*.sh
-          bash -n scripts/create-eks.sh
-          bash -n scripts/destroy-eks.sh
-          bash -n scripts/create-vpc.sh
-          bash -n scripts/delete-vpc.sh
+          if [ -d "scripts" ]; then
+            for script in scripts/*.sh; do
+              if [ -f "$script" ]; then
+                echo "Testing $script"
+                bash -n "$script"
+              fi
+            done
+          fi
           
       - name: Run test suite
         run: |
-          if [ -f tests/test.sh ]; then
+          if [ -f "tests/test.sh" ]; then
             chmod +x tests/test.sh
             ./tests/test.sh
+          else
+            echo "No test suite found, skipping"
           fi

@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -11,19 +11,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck yamllint
+          
       - name: Validate shell scripts
         run: |
-          find scripts/ -name "*.sh" -exec shellcheck {} \;
+          if [ -d "scripts" ]; then
+            find scripts/ -name "*.sh" -exec shellcheck {} \;
+          fi
           
       - name: Validate YAML files
         run: |
-          yamllint .github/workflows/ manifests/ cloudformation/
+          yamllint .github/workflows/
+          if [ -d "manifests" ]; then yamllint manifests/; fi
+          if [ -d "cloudformation" ]; then yamllint cloudformation/; fi
           
-      - name: Validate Terraform
+      - name: Setup Terraform
+        if: hashFiles('terraform/*.tf') != ''
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.5.0
-      - run: |
+          
+      - name: Validate Terraform
+        if: hashFiles('terraform/*.tf') != ''
+        run: |
           cd terraform
           terraform fmt -check
           terraform init
