@@ -68,16 +68,6 @@ if [[ -z "$PRV1" || -z "$PRV2" || -z "$PRV3" ]]; then
   exit 1
 fi
 
-# Validate subnet parsing
-if [[ -z "$PUB1" || -z "$PUB2" || -z "$PUB3" ]]; then
-  echo -e "${RED:-\033[0;31m}Error: Expected 3 public subnets, got: ${PUBLIC_SUBNET_IDS}${NC}"
-  exit 1
-fi
-if [[ -z "$PRV1" || -z "$PRV2" || -z "$PRV3" ]]; then
-  echo -e "${RED:-\033[0;31m}Error: Expected 3 private subnets, got: ${PRIVATE_SUBNET_IDS}${NC}"
-  exit 1
-fi
-
 echo -e "${MAGENTA}Creating IAM role for EKS Cluster...${NC}"
 CLUSTER_ROLE_NAME="eksClusterRole-${CLUSTER_NAME}"
 aws iam create-role --role-name "${CLUSTER_ROLE_NAME}" \
@@ -176,6 +166,7 @@ if [ -z "${ALB_POLICY_ARN}" ]; then
 fi
 
 ALB_ROLE_NAME="ALBControllerRole-${CLUSTER_NAME}"
+mkdir -p artifacts
 cat > artifacts/alb-trust-policy.json <<TP
 {
   "Version": "2012-10-17",

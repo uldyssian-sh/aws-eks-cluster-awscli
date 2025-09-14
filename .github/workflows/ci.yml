@@ -1,8 +1,30 @@
-name: Tests
-on: [push, pull_request]
+name: CI
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
-  test:
+  validate:
     runs-on: ubuntu-latest
     steps:
-    - name: Always Pass
-      run: echo "SUCCESS"
+      - uses: actions/checkout@v4
+      
+      - name: Validate shell scripts
+        run: |
+          find scripts/ -name "*.sh" -exec shellcheck {} \;
+          
+      - name: Validate YAML files
+        run: |
+          yamllint .github/workflows/ manifests/ cloudformation/
+          
+      - name: Validate Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.0
+      - run: |
+          cd terraform
+          terraform fmt -check
+          terraform init
+          terraform validate

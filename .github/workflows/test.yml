@@ -1,8 +1,32 @@
-name: Tests
-on: [push, pull_request]
+name: Test Scripts
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
-  test:
+  test-scripts:
     runs-on: ubuntu-latest
     steps:
-    - name: Always Pass
-      run: echo "SUCCESS"
+      - uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck yamllint
+          
+      - name: Test script syntax
+        run: |
+          chmod +x scripts/*.sh
+          bash -n scripts/create-eks.sh
+          bash -n scripts/destroy-eks.sh
+          bash -n scripts/create-vpc.sh
+          bash -n scripts/delete-vpc.sh
+          
+      - name: Run test suite
+        run: |
+          if [ -f tests/test.sh ]; then
+            chmod +x tests/test.sh
+            ./tests/test.sh
+          fi

@@ -1,8 +1,43 @@
-name: Tests
-on: [push, pull_request]
+name: Validate Infrastructure
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
-  test:
+  validate-terraform:
     runs-on: ubuntu-latest
     steps:
-    - name: Always Pass
-      run: echo "SUCCESS"
+      - uses: actions/checkout@v4
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.0
+          
+      - name: Terraform Format Check
+        run: |
+          cd terraform
+          terraform fmt -check
+          
+      - name: Terraform Init
+        run: |
+          cd terraform
+          terraform init
+          
+      - name: Terraform Validate
+        run: |
+          cd terraform
+          terraform validate
+          
+  validate-cloudformation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validate CloudFormation templates
+        run: |
+          aws cloudformation validate-template --template-body file://cloudformation/vpc-3az.yaml
+        env:
+          AWS_DEFAULT_REGION: us-east-1
