@@ -39,21 +39,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Configure AWS CLI
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: us-east-1
-          aws-access-key-id: fake
-          aws-secret-access-key: fake
           
-      - name: Validate CloudFormation templates
+      - name: Validate CloudFormation templates syntax
         run: |
           if [ -d "cloudformation" ]; then
             for template in cloudformation/*.yaml cloudformation/*.yml; do
               if [ -f "$template" ]; then
-                echo "Validating $template"
-                aws cloudformation validate-template --template-body file://$template || echo "Validation failed for $template"
+                echo "Checking YAML syntax for $template"
+                python3 -c "import yaml; yaml.safe_load(open('$template'))"
               fi
             done
           else
