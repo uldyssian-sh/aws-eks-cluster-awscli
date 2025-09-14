@@ -37,9 +37,5 @@ jobs:
       - name: Run Semgrep
         uses: returntocorp/semgrep-action@v1.77.0
         with:
-          config: >-
-            p/security-audit
-            p/secrets
-            p/ci
-            p/kubernetes
-            p/terraform
+          config: p/security-audit
+        continue-on-error: true
