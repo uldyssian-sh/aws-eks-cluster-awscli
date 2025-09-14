@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-          
+
       - name: Test script syntax
         run: |
           if [ -d "scripts" ]; then
@@ -21,7 +21,7 @@ jobs:
               fi
             done
           fi
-          
+
       - name: Run test suite
         run: |
           if [ -f "tests/test.sh" ]; then
