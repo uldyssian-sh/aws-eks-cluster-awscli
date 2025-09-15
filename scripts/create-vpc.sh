@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck source=.env.template
 set -euo pipefail
 
 # ANSI colors
