@@ -1,5 +1,22 @@
 # AWS EKS Cluster with AWS CLI
 
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support](#support)
+
+## Prerequisites
+
+Before using this project, ensure you have:
+- Required tools and dependencies
+- Proper access credentials
+- System requirements met
+
+
 🚀 **Production-ready automation scripts for deploying Amazon EKS clusters using pure AWS CLI and CloudFormation templates.
 Complete infrastructure-as-code solution with VPC, managed node groups, and AWS Load Balancer Controller.**
 ![Tests](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/actions/workflows/test.yml/badge.svg)
@@ -304,3 +321,21 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ⚠️ **Important**: These scripts create AWS resources that incur costs.
 Always run the destroy scripts to clean up resources when done.
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on:
+- How to submit issues
+- How to propose changes
+- Code style guidelines
+- Review process
+
+## Support
+
+- 📖 [Wiki Documentation](../../wiki)
+- 💬 [Discussions](../../discussions)
+- 🐛 [Issue Tracker](../../issues)
+- 🔒 [Security Policy](SECURITY.md)
+
+---
+**Made with ❤️ for the community**
