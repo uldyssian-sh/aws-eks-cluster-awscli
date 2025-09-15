@@ -49,7 +49,7 @@ Your AWS user/role must have the following permissions:
 
 #### Core Services
 - `AmazonEKSClusterPolicy`
-- `AmazonEKSWorkerNodePolicy` 
+- `AmazonEKSWorkerNodePolicy`
 - `AmazonEKS_CNI_Policy`
 - `AmazonEC2ContainerRegistryReadOnly`
 
@@ -267,7 +267,7 @@ The destroy script provides a verification report:
 aws-eks-cluster-awscli/
 ├── scripts/
 │   ├── create-vpc.sh          # VPC deployment
-│   ├── create-eks.sh          # EKS deployment  
+│   ├── create-eks.sh          # EKS deployment
 │   ├── destroy-eks.sh         # EKS cleanup
 │   └── delete-vpc.sh          # VPC cleanup
 ├── cloudformation/
