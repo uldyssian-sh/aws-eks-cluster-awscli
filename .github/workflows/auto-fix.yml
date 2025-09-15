@@ -17,7 +17,7 @@ jobs:
     - name: Safe fixes only
       run: |
         terraform fmt -recursive . 2>/dev/null || true
-        find . -name "*.yml" -o -name "*.yaml" | xargs -I {} sed -i 's/[[:space:]]*$//' {} 2>/dev/null || true
+        find . -name "*.yml" -o -name "*.yaml" -not -path "./.github/workflows/*" | xargs -I {} sed -i 's/[[:space:]]*$//' {} 2>/dev/null || true
         
     - name: Create PR for review
       uses: peter-evans/create-pull-request@v5
@@ -25,4 +25,3 @@ jobs:
         title: 'Auto-fix: Safe formatting only'
         body: 'Only safe formatting changes - no dependency updates'
         branch: auto-fix/safe
-        auto-merge-method: squash
