@@ -60,3 +60,14 @@ dev/
 # Security scan results
 trivy-results.sarif
 security-scan-results/
+# Performance optimization
+*.log
+*.tmp
+*.cache
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+node_modules/
+.vscode/settings.json
+.idea/
