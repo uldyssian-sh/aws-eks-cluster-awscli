@@ -20,7 +20,8 @@ prometheus:
 
 grafana:
   enabled: true
-  adminPassword: "admin123"
+  # adminPassword: Use existingSecret or set via helm --set grafana.adminPassword=<password>
+  existingSecret: grafana-admin-secret
   persistence:
     enabled: true
     storageClassName: gp2

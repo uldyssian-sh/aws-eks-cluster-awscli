@@ -64,14 +64,14 @@ module "eks" {
       capacity_type  = "ON_DEMAND"
 
       k8s_labels = {
-        Environment = "production"
+        Environment = var.environment
         NodeGroup   = "main"
       }
     }
   }
 
   tags = {
-    Environment = "production"
+    Environment = var.environment
     Terraform   = "true"
   }
 }

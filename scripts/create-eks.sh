@@ -84,12 +84,14 @@ aws iam attach-role-policy --role-name "${CLUSTER_ROLE_NAME}" --policy-arn arn:a
 CLUSTER_ROLE_ARN=$(aws iam get-role --role-name "${CLUSTER_ROLE_NAME}" --query 'Role.Arn' --output text)
 
 echo -e "${MAGENTA}Creating EKS Cluster ${CLUSTER_NAME}... (this can take several minutes)${NC}"
-aws eks create-cluster \
+if ! aws eks create-cluster \
   --name "${CLUSTER_NAME}" \
   --region "${AWS_REGION}" \
   --kubernetes-version "${K8S_VERSION}" \
   --role-arn "${CLUSTER_ROLE_ARN}" \
-  --resources-vpc-config subnetIds="${PRV1},${PRV2},${PRV3},${PUB1},${PUB2},${PUB3}" >/dev/null || true
+  --resources-vpc-config subnetIds="${PRV1},${PRV2},${PRV3},${PUB1},${PUB2},${PUB3}" 2>/dev/null; then
+    echo "Cluster already exists or creation failed"
+fi
 
 aws eks wait cluster-active --name "${CLUSTER_NAME}" --region "${AWS_REGION}"
 echo -e "${GREEN}Cluster is ACTIVE${NC}"
