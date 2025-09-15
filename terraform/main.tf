@@ -1,81 +1,55 @@
+# Enterprise Infrastructure Configuration
 terraform {
   required_version = ">= 1.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.70"
+      version = "~> 5.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.0"
     }
   }
 }
 
-provider "aws" {
-  region = var.aws_region
-}
+# High Availability Configuration
+resource "aws_autoscaling_group" "enterprise_asg" {
+  name                = "enterprise-asg"
+  vpc_zone_identifier = var.subnet_ids
+  target_group_arns   = [aws_lb_target_group.enterprise_tg.arn]
+  health_check_type   = "ELB"
+  health_check_grace_period = 300
 
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.13"
+  min_size         = 3
+  max_size         = 10
+  desired_capacity = 5
 
-  name = "${var.cluster_name}-vpc"
-  cidr = var.vpc_cidr
-
-  azs             = data.aws_availability_zones.available.names
-  private_subnets = var.private_subnet_cidrs
-  public_subnets  = var.public_subnet_cidrs
-
-  enable_nat_gateway   = true
-  single_nat_gateway   = true
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-
-  public_subnet_tags = {
-    "kubernetes.io/role/elb" = "1"
+  tag {
+    key                 = "Name"
+    value               = "enterprise-instance"
+    propagate_at_launch = true
   }
 
-  private_subnet_tags = {
-    "kubernetes.io/role/internal-elb" = "1"
-  }
-
-  tags = {
-    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
+  tag {
+    key                 = "Environment"
+    value               = var.environment
+    propagate_at_launch = true
   }
 }
 
-module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "~> 20.24"
+# Load Balancer for High Availability
+resource "aws_lb" "enterprise_lb" {
+  name               = "enterprise-lb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.lb_sg.id]
+  subnets            = var.subnet_ids
 
-  cluster_name    = var.cluster_name
-  cluster_version = var.kubernetes_version
-
-  vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets
-
-  cluster_endpoint_public_access  = true
-  cluster_endpoint_private_access = true
-
-  eks_managed_node_groups = {
-    main = {
-      min_size     = var.node_group_min_size
-      max_size     = var.node_group_max_size
-      desired_size = var.node_group_desired_size
-
-      instance_types = [var.node_instance_type]
-      capacity_type  = "ON_DEMAND"
-
-      k8s_labels = {
-        Environment = var.environment
-        NodeGroup   = "main"
-      }
-    }
-  }
+  enable_deletion_protection = true
 
   tags = {
     Environment = var.environment
-    Terraform   = "true"
+    Purpose     = "enterprise-load-balancing"
   }
-}
-
-data "aws_availability_zones" "available" {
-  state = "available"
 }
