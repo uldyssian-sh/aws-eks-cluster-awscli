@@ -1,31 +1,29 @@
-# aws eks cluster awscli
+# AWS EKS Cluster AWSCLI
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub issues](https://img.shields.io/github/issues/uldyssian-sh/aws-eks-cluster-awscli)](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/issues)
-[![GitHub stars](https://img.shields.io/github/stars/uldyssian-sh/aws-eks-cluster-awscli)](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/stargazers)
-[![Security](https://img.shields.io/badge/Security-Enterprise-blue.svg)](SECURITY.md)
+[![GitHub license](https://img.shields.io/github/license/uldyssian-sh/aws-eks-cluster-awscli)](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/blob/main/LICENSE)
+[![CI](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/workflows/CI/badge.svg)](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/actions)
 
-## 🎯 Overview
+## 🚀 Overview
 
-Professional aws eks cluster awscli solution with enterprise-grade automation and security features.
+Enterprise-grade AWS EKS cluster management using AWS CLI automation scripts. Streamlines EKS cluster deployment, configuration, and management operations.
 
-## 📊 Repository Stats
-
-- **Files:**       65
-- **Technologies:** Terraform YAML Bash
-- **Type:** Infrastructure Automation
-- **Status:** Production Ready
+**Technology Stack:** AWS CLI, Bash, Kubernetes, YAML
 
 ## ✨ Features
 
-- 🏗️ **Enterprise Architecture** - Production-ready infrastructure
-- 🔒 **Zero-Trust Security** - Comprehensive security controls
-- 🚀 **CI/CD Automation** - Automated deployment pipelines
-- 📊 **Monitoring & Observability** - Complete visibility
-- 🤖 **AI Integration** - GitHub Copilot & Amazon Q
-- 🔄 **Self-Healing** - Automatic error recovery
-- 📈 **Performance Optimized** - High-performance configurations
-- 🛡️ **Compliance Ready** - SOC2, GDPR, HIPAA standards
+- 🔧 **Automated EKS Deployment** - One-click cluster provisioning
+- 🔒 **Security Hardening** - Built-in security best practices
+- 📊 **Monitoring Integration** - CloudWatch and Prometheus setup
+- 🌐 **Multi-AZ Support** - High availability configuration
+- 🔄 **Auto-scaling** - Horizontal and vertical pod autoscaling
+- 📚 **Comprehensive Logging** - Centralized log management
+
+## 🛠️ Prerequisites
+
+- AWS CLI v2.0+
+- kubectl v1.21+
+- eksctl v0.100+
+- Valid AWS credentials with EKS permissions
 
 ## 🚀 Quick Start
 
@@ -34,47 +32,75 @@ Professional aws eks cluster awscli solution with enterprise-grade automation an
 git clone https://github.com/uldyssian-sh/aws-eks-cluster-awscli.git
 cd aws-eks-cluster-awscli
 
-# Setup environment
-chmod +x setup.sh
-./setup.sh
+# Configure AWS credentials
+aws configure
+
+# Deploy EKS cluster
+./scripts/deploy-cluster.sh --cluster-name my-eks --region us-west-2
+
+# Verify deployment
+kubectl get nodes
 ```
 
+## 📋 Cluster Configuration
 
-## 🏗️ Terraform Usage
-
+### Basic Cluster
 ```bash
-# Initialize Terraform
-terraform init
-
-# Plan deployment
-terraform plan
-
-# Apply configuration
-terraform apply
+./scripts/deploy-cluster.sh \
+  --cluster-name production-eks \
+  --region us-west-2 \
+  --node-type m5.large \
+  --nodes 3
 ```
 
+### Production Cluster
+```bash
+./scripts/deploy-cluster.sh \
+  --cluster-name production-eks \
+  --region us-west-2 \
+  --node-type m5.xlarge \
+  --nodes 5 \
+  --enable-logging \
+  --enable-monitoring \
+  --enable-autoscaling
+```
+
+## 🔧 Available Scripts
+
+| Script | Description |
+|--------|-------------|
+| `deploy-cluster.sh` | Deploy new EKS cluster |
+| `update-cluster.sh` | Update existing cluster |
+| `delete-cluster.sh` | Delete EKS cluster |
+| `scale-nodes.sh` | Scale node groups |
+| `install-addons.sh` | Install cluster add-ons |
+
+## 📊 Monitoring & Logging
+
+- **CloudWatch Container Insights** - Cluster metrics
+- **AWS Load Balancer Controller** - Ingress management
+- **Cluster Autoscaler** - Automatic scaling
+- **Fluent Bit** - Log forwarding
+
+## 🔒 Security Features
+
+- IAM roles and policies
+- Network security groups
+- Pod security standards
+- Secrets encryption
+- Private endpoint access
 
 ## 📚 Documentation
 
-- [Installation Guide](docs/installation.md)
-- [Configuration Reference](docs/configuration.md)
-- [API Documentation](docs/api.md)
+- [Cluster Architecture](docs/architecture.md)
+- [Security Guide](docs/security.md)
 - [Troubleshooting](docs/troubleshooting.md)
-- [Security Policy](SECURITY.md)
+- [Best Practices](docs/best-practices.md)
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) file.
-
-## 🆘 Support
-
-- 🐛 **Issues**: [GitHub Issues](https://github.com/uldyssian-sh/REPO_NAME/issues)
-- 📖 **Documentation**: [Wiki](https://github.com/uldyssian-sh/REPO_NAME/wiki)
-
----
-
-⭐ **Star this repository if you find it helpful!**
+MIT License - see [LICENSE](LICENSE) file for details.
