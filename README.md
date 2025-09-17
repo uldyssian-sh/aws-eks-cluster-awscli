@@ -1,106 +1,82 @@
-# AWS EKS Cluster AWSCLI
+# AWS EKS Production Cluster
 
-[![GitHub license](https://img.shields.io/github/license/uldyssian-sh/aws-eks-cluster-awscli)](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/blob/main/LICENSE)
-[![CI](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/workflows/CI/badge.svg)](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/actions)
+> Enterprise-grade Amazon EKS cluster automation and management solution
 
-## 🚀 Overview
+[![Deploy](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/actions/workflows/deploy.yml/badge.svg)](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/actions/workflows/deploy.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Enterprise-grade AWS EKS cluster management using AWS CLI automation scripts. Streamlines EKS cluster deployment, configuration, and management operations.
-
-**Technology Stack:** AWS CLI, Bash, Kubernetes, YAML
-
-## ✨ Features
-
-- 🔧 **Automated EKS Deployment** - One-click cluster provisioning
-- 🔒 **Security Hardening** - Built-in security best practices
-- 📊 **Monitoring Integration** - CloudWatch and Prometheus setup
-- 🌐 **Multi-AZ Support** - High availability configuration
-- 🔄 **Auto-scaling** - Horizontal and vertical pod autoscaling
-- 📚 **Comprehensive Logging** - Centralized log management
-
-## 🛠️ Prerequisites
-
-- AWS CLI v2.0+
-- kubectl v1.21+
-- eksctl v0.100+
-- Valid AWS credentials with EKS permissions
-
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
-# Clone repository
+# Prerequisites: AWS CLI, kubectl, eksctl
+aws configure
 git clone https://github.com/uldyssian-sh/aws-eks-cluster-awscli.git
 cd aws-eks-cluster-awscli
 
-# Configure AWS credentials
-aws configure
+# Deploy cluster
+./scripts/deploy.sh --region us-west-2 --cluster-name production
+```
 
-# Deploy EKS cluster
-./scripts/deploy-cluster.sh --cluster-name my-eks --region us-west-2
+## Architecture
 
-# Verify deployment
+- **Control Plane**: Managed by AWS EKS
+- **Worker Nodes**: Auto Scaling Groups with Spot instances
+- **Networking**: VPC with private/public subnets
+- **Security**: IAM roles, Security Groups, Pod Security Standards
+
+## Features
+
+| Feature | Status | Description |
+|---------|--------|-------------|
+| Auto Scaling | ✅ | Horizontal Pod Autoscaler + Cluster Autoscaler |
+| Load Balancing | ✅ | AWS Load Balancer Controller |
+| Monitoring | ✅ | CloudWatch Container Insights |
+| Logging | ✅ | Fluent Bit to CloudWatch Logs |
+| Security | ✅ | Pod Security Standards, Network Policies |
+
+## Configuration
+
+```yaml
+# cluster-config.yaml
+cluster:
+  name: production-eks
+  region: us-west-2
+  version: "1.28"
+  
+nodeGroups:
+  - name: workers
+    instanceType: m5.large
+    minSize: 2
+    maxSize: 10
+    spotInstances: true
+```
+
+## Deployment Environments
+
+- **Development**: `dev.example.com`
+- **Staging**: `staging.example.com`  
+- **Production**: `prod.example.com`
+
+## Monitoring & Alerts
+
+Access cluster metrics at: `https://console.aws.amazon.com/cloudwatch/`
+
+## Troubleshooting
+
+```bash
+# Check cluster status
 kubectl get nodes
+kubectl get pods --all-namespaces
+
+# View logs
+kubectl logs -f deployment/app-name
 ```
 
-## 📋 Cluster Configuration
+## Cost Optimization
 
-### Basic Cluster
-```bash
-./scripts/deploy-cluster.sh \
-  --cluster-name production-eks \
-  --region us-west-2 \
-  --node-type m5.large \
-  --nodes 3
-```
+- Spot instances for non-critical workloads
+- Cluster autoscaler for right-sizing
+- Reserved instances for baseline capacity
 
-### Production Cluster
-```bash
-./scripts/deploy-cluster.sh \
-  --cluster-name production-eks \
-  --region us-west-2 \
-  --node-type m5.xlarge \
-  --nodes 5 \
-  --enable-logging \
-  --enable-monitoring \
-  --enable-autoscaling
-```
-
-## 🔧 Available Scripts
-
-| Script | Description |
-|--------|-------------|
-| `deploy-cluster.sh` | Deploy new EKS cluster |
-| `update-cluster.sh` | Update existing cluster |
-| `delete-cluster.sh` | Delete EKS cluster |
-| `scale-nodes.sh` | Scale node groups |
-| `install-addons.sh` | Install cluster add-ons |
-
-## 📊 Monitoring & Logging
-
-- **CloudWatch Container Insights** - Cluster metrics
-- **AWS Load Balancer Controller** - Ingress management
-- **Cluster Autoscaler** - Automatic scaling
-- **Fluent Bit** - Log forwarding
-
-## 🔒 Security Features
-
-- IAM roles and policies
-- Network security groups
-- Pod security standards
-- Secrets encryption
-- Private endpoint access
-
-## 📚 Documentation
-
-- [Cluster Architecture](docs/architecture.md)
-- [Security Guide](docs/security.md)
-- [Troubleshooting](docs/troubleshooting.md)
-- [Best Practices](docs/best-practices.md)
-
-## 🤝 Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file for details.
+---
+**Maintained by**: [uldyssian-sh](https://github.com/uldyssian-sh) | **License**: MIT
