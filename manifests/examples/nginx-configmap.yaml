@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-html
+  labels:
+    app: nginx
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>EKS Nginx Demo</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 40px; background: #f0f8ff; }
+            .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+            .status { color: #28a745; font-weight: bold; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🚀 AWS EKS Cluster Demo</h1>
+            <p class="status">✅ Nginx is running successfully!</p>
+            <p><strong>Cluster:</strong> aws-eks-cluster-awscli</p>
+            <p><strong>Security:</strong> Read-only filesystem, non-root user</p>
+            <p><strong>Repository:</strong> <a href="https://github.com/uldyssian-sh/aws-eks-cluster-awscli">uldyssian-sh/aws-eks-cluster-awscli</a></p>
+        </div>
+    </body>
+    </html>
+  health: |
+    OK

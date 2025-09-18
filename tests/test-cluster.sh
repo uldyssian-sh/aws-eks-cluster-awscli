@@ -84,22 +84,26 @@ test_load_balancer_controller() {
 
 test_dns_resolution() {
   echo -e "${CYAN}Testing DNS resolution...${NC}"
-  if kubectl run test-dns --image=busybox --rm -i --restart=Never -- nslookup kubernetes.default >/dev/null 2>&1; then
+  if timeout 30 kubectl run test-dns --image=busybox --rm -i --restart=Never -- nslookup kubernetes.default >/dev/null 2>&1; then
     echo -e "${GREEN}✓ DNS resolution is working${NC}"
     return 0
   else
     echo -e "${RED}✗ DNS resolution failed${NC}"
+    # Cleanup any stuck pods
+    kubectl delete pod test-dns --ignore-not-found=true >/dev/null 2>&1 || true
     return 1
   fi
 }
 
 test_internet_connectivity() {
   echo -e "${CYAN}Testing internet connectivity...${NC}"
-  if kubectl run test-internet --image=busybox --rm -i --restart=Never -- wget -q --spider google.com >/dev/null 2>&1; then
+  if timeout 30 kubectl run test-internet --image=busybox --rm -i --restart=Never -- wget -q --spider google.com >/dev/null 2>&1; then
     echo -e "${GREEN}✓ Internet connectivity is working${NC}"
     return 0
   else
     echo -e "${RED}✗ Internet connectivity failed${NC}"
+    # Cleanup any stuck pods
+    kubectl delete pod test-internet --ignore-not-found=true >/dev/null 2>&1 || true
     return 1
   fi
 }

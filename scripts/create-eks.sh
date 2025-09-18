@@ -2,7 +2,7 @@
 # shellcheck source=.env.template
 set -euo pipefail
 
-CYAN="\033[0;36m"; MAGENTA="\033[0;35m"; GREEN="\033[0;32m"; NC="\033[0m"
+CYAN="\033[0;36m"; MAGENTA="\033[0;35m"; GREEN="\033[0;32m"; RED="\033[0;31m"; NC="\033[0m"
 
 echo -e "${MAGENTA}=== EKS Cluster + NodeGroup + OIDC + AWS Load Balancer Controller ===${NC}"
 

@@ -41,6 +41,20 @@ spec:
               mountPath: /var/cache/nginx
             - name: var-run
               mountPath: /var/run
+            - name: nginx-html
+              mountPath: /usr/share/nginx/html
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
       volumes:
         - name: tmp
           emptyDir: {}
@@ -48,6 +62,9 @@ spec:
           emptyDir: {}
         - name: var-run
           emptyDir: {}
+        - name: nginx-html
+          configMap:
+            name: nginx-html
 ---
 apiVersion: v1
 kind: Service
@@ -69,7 +86,7 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-path: /health
 spec:
   ingressClassName: alb
   rules:

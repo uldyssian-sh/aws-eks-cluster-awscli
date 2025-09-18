@@ -73,15 +73,23 @@ if [ -n "${PUBLIC_SUBNET_IDS:-}" ] && [ -n "${PRIVATE_SUBNET_IDS:-}" ]; then
 fi
 
 echo -e "${MAGENTA}Deleting OIDC provider (if present)...${NC}"
-OIDC_ISSUER=$(aws eks describe-cluster --name "${CLUSTER_NAME}" --region "${AWS_REGION}" --query "cluster.identity.oidc.issuer" --output text 2>/dev/null || true)
-if [ -z "${OIDC_ISSUER}" ] && [ -n "${OIDC_PROVIDER_ARN:-}" ]; then
+# Try to get OIDC issuer from environment variable first, then from cluster (if still exists)
+if [ -n "${OIDC_PROVIDER_ARN:-}" ]; then
   OIDC_TO_DELETE="${OIDC_PROVIDER_ARN}"
 else
-  OIDC_HOST="${OIDC_ISSUER#https://}"
-  OIDC_TO_DELETE=$(aws iam list-open-id-connect-providers --query "OpenIDConnectProviderList[?contains(Arn, '${OIDC_HOST}')].Arn" --output text)
+  # Extract OIDC host from cluster if it still exists
+  OIDC_ISSUER=$(aws eks describe-cluster --name "${CLUSTER_NAME}" --region "${AWS_REGION}" --query "cluster.identity.oidc.issuer" --output text 2>/dev/null || echo "")
+  if [ -n "${OIDC_ISSUER}" ] && [ "${OIDC_ISSUER}" != "None" ]; then
+    OIDC_HOST="${OIDC_ISSUER#https://}"
+    OIDC_TO_DELETE=$(aws iam list-open-id-connect-providers --query "OpenIDConnectProviderList[?contains(Arn, '${OIDC_HOST}')].Arn" --output text 2>/dev/null || echo "")
+  else
+    OIDC_TO_DELETE=""
+  fi
 fi
-if [ -n "${OIDC_TO_DELETE}" ]; then
+if [ -n "${OIDC_TO_DELETE}" ] && [ "${OIDC_TO_DELETE}" != "None" ]; then
   aws iam delete-open-id-connect-provider --open-id-connect-provider-arn "${OIDC_TO_DELETE}" || true
+else
+  echo "  - OIDC provider not found or already removed"
 fi
 
 echo -e "${GREEN}\n=== DESTRUCTION COMPLETE - VERIFICATION REPORT ===${NC}"

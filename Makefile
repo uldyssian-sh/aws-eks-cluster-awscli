@@ -88,3 +88,37 @@ quick-deploy: vpc eks addons test
 # Full deployment with monitoring
 full-deploy: vpc eks addons monitoring test
 	@echo "Full deployment with monitoring completed!"
+
+# Security targets
+security-scan:
+	@echo "Running security scans..."
+	@command -v trivy >/dev/null 2>&1 || { echo "trivy not installed"; exit 1; }
+	trivy fs .
+	@command -v cfn-lint >/dev/null 2>&1 || { echo "cfn-lint not installed"; exit 1; }
+	cfn-lint cloudformation/*.yaml
+
+validate:
+	@echo "Validating configurations..."
+	@command -v kubeval >/dev/null 2>&1 || { echo "kubeval not installed"; exit 1; }
+	find manifests -name "*.yaml" -exec kubeval {} \;
+
+# Documentation
+docs:
+	@echo "Generating documentation..."
+	@echo "Repository: aws-eks-cluster-awscli"
+	@echo "Status: $(shell git status --porcelain | wc -l) uncommitted changes"
+	@echo "Last commit: $(shell git log -1 --pretty=format:'%h - %s (%cr)')"
+
+# Git operations
+commit-all:
+	@echo "Committing all changes..."
+	git add .
+	git commit -m "chore: automated update $(shell date '+%Y-%m-%d %H:%M:%S')"
+
+push:
+	@echo "Pushing to remote..."
+	git push origin main
+
+# Complete workflow
+ci-cd: lint validate security-scan test
+	@echo "CI/CD pipeline completed successfully!"

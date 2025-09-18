@@ -155,12 +155,12 @@ spec:
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
             - --expander=least-waste
+            - --balance-similar-node-groups
+            - --skip-nodes-with-system-pods=false
             - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/$(CLUSTER_NAME)  # yamllint disable-line rule:line-length
           env:
             - name: CLUSTER_NAME
               value: "${CLUSTER_NAME}"  # Set via deployment script
-            - --balance-similar-node-groups
-            - --skip-nodes-with-system-pods=false
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt

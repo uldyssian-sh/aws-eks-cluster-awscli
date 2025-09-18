@@ -15,7 +15,7 @@ AWS_REGION="${AWS_REGION:-eu-central-1}"
 
 echo -e "${CYAN}Installing Cluster Autoscaler...${NC}"
 # Replace CLUSTER_NAME placeholder with actual cluster name
-sed "s/CLUSTER_NAME/${CLUSTER_NAME}/g" manifests/cluster-autoscaler.yaml | kubectl apply -f -
+sed "s|CLUSTER_NAME|${CLUSTER_NAME}|g" manifests/cluster-autoscaler.yaml | kubectl apply -f -
 kubectl -n kube-system annotate deployment.apps/cluster-autoscaler \
   cluster-autoscaler.kubernetes.io/safe-to-evict="false" --overwrite
 

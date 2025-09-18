@@ -61,5 +61,5 @@ variable "node_group_desired_size" {
 variable "environment" {
   description = "Environment name"
   type        = string
-  default     = "production"
+  default     = "development"
 }

@@ -1,50 +1,60 @@
-# DEPRECATED: PodSecurityPolicy is deprecated in Kubernetes 1.21+ and removed in 1.25+
-# Use Pod Security Standards instead: https://kubernetes.io/docs/concepts/security/pod-security-standards/
-# This file is kept for reference but should not be applied to clusters running Kubernetes 1.25+
-apiVersion: policy/v1beta1
-kind: PodSecurityPolicy
+# Pod Security Standards - Modern replacement for deprecated PodSecurityPolicy
+# This configuration uses Pod Security Standards which are available in Kubernetes 1.23+
+# and are the recommended approach for pod security enforcement
+
+# Create a restricted namespace for applications requiring strict security
+apiVersion: v1
+kind: Namespace
 metadata:
-  name: restricted
+  name: restricted-apps
+  labels:
+    # Enforce restricted Pod Security Standard
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted
+    # Use latest version of the standard
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/audit-version: latest
+    pod-security.kubernetes.io/warn-version: latest
+---
+# Create a baseline namespace for less restrictive applications
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: baseline-apps
+  labels:
+    # Enforce baseline Pod Security Standard
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/audit: baseline
+    pod-security.kubernetes.io/warn: baseline
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/audit-version: latest
+    pod-security.kubernetes.io/warn-version: latest
+---
+# NetworkPolicy to restrict traffic between namespaces
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-cross-namespace
+  namespace: restricted-apps
 spec:
-  privileged: false
-  allowPrivilegeEscalation: false
-  requiredDropCapabilities:
-    - ALL
-  volumes:
-    - 'configMap'
-    - 'emptyDir'
-    - 'projected'
-    - 'secret'
-    - 'downwardAPI'
-    - 'persistentVolumeClaim'
-  runAsUser:
-    rule: 'MustRunAsNonRoot'
-  seLinux:
-    rule: 'RunAsAny'
-  fsGroup:
-    rule: 'RunAsAny'
-  readOnlyRootFilesystem: true
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: restricted-psp-user
-rules:
-  - apiGroups: ['policy']
-    resources: ['podsecuritypolicies']
-    verbs: ['use']
-    resourceNames:
-      - restricted
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: restricted-psp-all-serviceaccounts
-subjects:
-  - kind: Group
-    name: system:serviceaccounts
-    apiGroup: rbac.authorization.k8s.io
-roleRef:
-  kind: ClusterRole
-  name: restricted-psp-user
-  apiGroup: rbac.authorization.k8s.io
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: restricted-apps
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: restricted-apps
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53

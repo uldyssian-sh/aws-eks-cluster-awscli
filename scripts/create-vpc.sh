@@ -55,10 +55,28 @@ aws cloudformation deploy \
     PrivateSubnetCidrs="${PRIVATE_CIDRS}"
 
 echo -e "${MAGENTA}Fetching outputs...${NC}"
-STACK_JSON=$(aws cloudformation describe-stacks --stack-name "${STACK_NAME}" --region "${AWS_REGION}")
+if ! STACK_JSON=$(aws cloudformation describe-stacks --stack-name "${STACK_NAME}" --region "${AWS_REGION}" 2>/dev/null); then
+  echo -e "${RED:-\033[0;31m}Error: Failed to describe CloudFormation stack${NC}" >&2
+  exit 1
+fi
+
 VPC_ID=$(echo "$STACK_JSON" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="VpcId") | .OutputValue')
 PUBLIC_SUBNET_IDS=$(echo "$STACK_JSON" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="PublicSubnetIds") | .OutputValue')
 PRIVATE_SUBNET_IDS=$(echo "$STACK_JSON" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="PrivateSubnetIds") | .OutputValue')
+
+# Validate extracted values
+if [[ -z "$VPC_ID" || "$VPC_ID" == "null" ]]; then
+  echo -e "${RED:-\033[0;31m}Error: VPC ID not found in stack outputs${NC}" >&2
+  exit 1
+fi
+if [[ -z "$PUBLIC_SUBNET_IDS" || "$PUBLIC_SUBNET_IDS" == "null" ]]; then
+  echo -e "${RED:-\033[0;31m}Error: Public subnet IDs not found in stack outputs${NC}" >&2
+  exit 1
+fi
+if [[ -z "$PRIVATE_SUBNET_IDS" || "$PRIVATE_SUBNET_IDS" == "null" ]]; then
+  echo -e "${RED:-\033[0;31m}Error: Private subnet IDs not found in stack outputs${NC}" >&2
+  exit 1
+fi
 
 mkdir -p artifacts
 cat > artifacts/vpc-outputs.json <<JSON

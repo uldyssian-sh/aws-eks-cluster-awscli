@@ -26,8 +26,10 @@ repos=(
   "vmware-pptx-iconography"
 )
 
+GITHUB_USER="${GITHUB_USER:-uldyssian-sh}"
+
 for repo in "${repos[@]}"; do
-  echo "https://github.com/uldyssian-sh/$repo/discussions/new"
+  echo "https://github.com/$GITHUB_USER/$repo/discussions/new"
 done
 
 echo ""

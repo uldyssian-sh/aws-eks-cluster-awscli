@@ -17,10 +17,15 @@ read -rp "$(echo -e "${CYAN}AWS region [${AWS_REGION:-eu-central-1}]:${NC} ") " 
 AWS_REGION="${AWS_REGION_INPUT:-${AWS_REGION:-eu-central-1}}"
 
 echo -e "${CYAN}Updating kubeconfig...${NC}"
-aws eks update-kubeconfig --name "${CLUSTER_NAME}" --region "${AWS_REGION}"
-
-echo -e "${CYAN}Testing connection...${NC}"
-kubectl cluster-info
-kubectl get nodes
-
-echo -e "${GREEN}kubectl configured successfully!${NC}"
+if aws eks update-kubeconfig --name "${CLUSTER_NAME}" --region "${AWS_REGION}"; then
+  echo -e "${CYAN}Testing connection...${NC}"
+  if kubectl cluster-info && kubectl get nodes; then
+    echo -e "${GREEN}kubectl configured successfully!${NC}"
+  else
+    echo -e "${RED:-\033[0;31m}Error: Failed to connect to cluster${NC}" >&2
+    exit 1
+  fi
+else
+  echo -e "${RED:-\033[0;31m}Error: Failed to update kubeconfig${NC}" >&2
+  exit 1
+fi

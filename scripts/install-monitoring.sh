@@ -7,17 +7,30 @@ CYAN="\033[0;36m"; GREEN="\033[0;32m"; NC="\033[0m"
 echo -e "${CYAN}=== Install Monitoring Stack (Prometheus + Grafana) ===${NC}"
 
 echo -e "${CYAN}Adding Prometheus Helm repository...${NC}"
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
+if ! helm repo add prometheus-community https://prometheus-community.github.io/helm-charts; then
+  echo -e "${RED:-\033[0;31m}Error: Failed to add Helm repository${NC}" >&2
+  exit 1
+fi
+
+if ! helm repo update; then
+  echo -e "${RED:-\033[0;31m}Error: Failed to update Helm repositories${NC}" >&2
+  exit 1
+fi
 
 echo -e "${CYAN}Creating monitoring namespace...${NC}"
-kubectl create namespace monitoring --dry-run=client -o yaml | kubectl apply -f -
+if ! kubectl create namespace monitoring --dry-run=client -o yaml | kubectl apply -f -; then
+  echo -e "${RED:-\033[0;31m}Error: Failed to create monitoring namespace${NC}" >&2
+  exit 1
+fi
 
 echo -e "${CYAN}Installing Prometheus stack...${NC}"
-helm upgrade --install prometheus prometheus-community/kube-prometheus-stack \
+if ! helm upgrade --install prometheus prometheus-community/kube-prometheus-stack \
   --namespace monitoring \
   --values manifests/monitoring/prometheus-values.yaml \
-  --wait
+  --wait; then
+  echo -e "${RED:-\033[0;31m}Error: Failed to install Prometheus stack${NC}" >&2
+  exit 1
+fi
 
 echo -e "${CYAN}Waiting for pods to be ready...${NC}"
 kubectl -n monitoring wait --for=condition=ready pod -l app.kubernetes.io/name=prometheus --timeout=300s
