@@ -154,3 +154,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Note**: This project follows AWS Well-Architected Framework principles and GitHub DevOps professional standards.
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/issues)
+- **Security**: [Security Policy](SECURITY.md)
+- **Contributing**: [Contributing Guidelines](CONTRIBUTING.md)
+
+---
+
+**⭐ Star this repository if you find it helpful!**
