@@ -84,7 +84,7 @@ jobs:
           echo "- ✅ Terraform security scan (tfsec)" >> security-report.md
 
       - name: Upload security report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: security-report
