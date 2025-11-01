@@ -1,0 +1,1 @@
+# Auto-scaling Configuration
