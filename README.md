@@ -6,6 +6,8 @@
 
 Enterprise-grade AWS EKS cluster automation using AWS CLI with comprehensive security, monitoring, and cost optimization for GitHub Free tier.
 
+> 🎯 **Updated**: Enhanced automation scripts and improved monitoring capabilities for December 2024!
+
 ## 🚀 Features
 
 - **Automated EKS Cluster Deployment** - Complete cluster setup with AWS CLI
@@ -63,10 +65,14 @@ Enterprise-grade AWS EKS cluster automation using AWS CLI with comprehensive sec
 ├── .github/                 # GitHub workflows and templates
 ├── cloudformation/          # CloudFormation templates
 ├── docs/                   # Documentation
+│   ├── COST_OPTIMIZATION.md # Cost optimization guide
+│   └── SECURITY_BEST_PRACTICES.md # Security guidelines
 ├── examples/               # Example configurations
 ├── iam/                    # IAM policies
 ├── manifests/              # Kubernetes manifests
 ├── scripts/                # Automation scripts
+│   ├── create-eks.sh       # Enhanced EKS creation
+│   └── validate-cluster.sh # Cluster validation
 ├── terraform/              # Terraform configurations
 └── tests/                  # Test scripts
 ```
@@ -104,6 +110,15 @@ The CloudFormation template creates:
 - **Grafana** - Visualization dashboards
 - **Cluster Autoscaler** - Automatic scaling
 - **AWS Load Balancer Controller** - Ingress management
+- **Health Monitoring** - Automated cluster validation
+
+### Health Checks
+
+The project includes comprehensive health monitoring:
+- Automated cluster validation
+- Node health verification
+- Pod status monitoring
+- Network connectivity tests
 
 ## 🧪 Testing
 
@@ -111,6 +126,21 @@ Run the test suite:
 ```bash
 ./tests/test-cluster.sh
 ```
+
+### Cluster Validation
+
+Validate cluster health and configuration:
+```bash
+./scripts/validate-cluster.sh
+```
+
+This script checks:
+- Cluster status and connectivity
+- Node group health
+- System pods status
+- AWS Load Balancer Controller
+- OIDC provider configuration
+- Network configuration
 
 ## 🚀 Deployment
 
@@ -154,3 +184,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Note**: This project follows AWS Well-Architected Framework principles and GitHub DevOps professional standards.
+
+**Last Updated**: 2024-12-26 | **Version**: 1.2.0
