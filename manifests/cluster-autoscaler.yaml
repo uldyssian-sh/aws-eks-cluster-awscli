@@ -178,3 +178,4 @@ spec:
             path: "/etc/ssl/certs/ca-bundle.crt"
       nodeSelector:
         kubernetes.io/os: linux
+# Updated Sun Nov  9 12:50:11 CET 2025

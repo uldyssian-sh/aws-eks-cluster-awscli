@@ -250,3 +250,4 @@ OIDC_PROVIDER_ARN=${OIDC_PROVIDER_ARN}
 ENV
 
 echo -e "${GREEN}EKS cluster ready!${NC}"
+# Updated Sun Nov  9 12:50:10 CET 2025

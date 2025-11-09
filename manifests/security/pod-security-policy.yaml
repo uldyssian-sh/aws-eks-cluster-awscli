@@ -57,4 +57,4 @@ spec:
     - protocol: TCP
       port: 53
     - protocol: UDP
-      port: 53
+      port: 53# Updated Sun Nov  9 12:50:11 CET 2025

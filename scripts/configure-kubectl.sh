@@ -28,4 +28,4 @@ if aws eks update-kubeconfig --name "${CLUSTER_NAME}" --region "${AWS_REGION}"; 
 else
   echo -e "${RED:-\033[0;31m}Error: Failed to update kubeconfig${NC}" >&2
   exit 1
-fi
+fi# Updated Sun Nov  9 12:50:10 CET 2025

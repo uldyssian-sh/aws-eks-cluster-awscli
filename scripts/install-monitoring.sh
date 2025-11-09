@@ -41,4 +41,4 @@ echo -e "${CYAN}Access Grafana:${NC}"
 echo "kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80"
 echo "Username: admin"
 echo "Get password with: kubectl get secret -n monitoring prometheus-grafana -o jsonpath='{.data.admin-password}' | base64 -d"
-echo "IMPORTANT: Change the default password after first login!"
+echo "IMPORTANT: Change the default password after first login!"# Updated Sun Nov  9 12:50:10 CET 2025

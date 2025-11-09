@@ -119,3 +119,4 @@ for ROLE in "${CLUSTER_ROLE_NAME}" "${NODE_ROLE_NAME}" "${ALB_ROLE_NAME}"; do
 done
 
 echo -e "\n${GREEN}🎉 All EKS resources successfully destroyed!${NC}"
+# Updated Sun Nov  9 12:50:10 CET 2025

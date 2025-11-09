@@ -40,4 +40,4 @@ if ! aws eks create-addon \
     echo "EBS CSI Driver addon already exists or failed to create"
 fi
 
-echo -e "${GREEN}Add-ons installed successfully!${NC}"
+echo -e "${GREEN}Add-ons installed successfully!${NC}"# Updated Sun Nov  9 12:50:10 CET 2025
