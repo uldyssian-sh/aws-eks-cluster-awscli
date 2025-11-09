@@ -1,7 +1,6 @@
 # AWS EKS Cluster with AWS CLI
 
 [![CI](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/workflows/CI/badge.svg)](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![AWS](https://img.shields.io/badge/AWS-EKS-orange.svg)](https://aws.amazon.com/eks/)
 
 Enterprise-grade AWS EKS cluster automation using AWS CLI with comprehensive security, monitoring, and cost optimization for GitHub Free tier.
