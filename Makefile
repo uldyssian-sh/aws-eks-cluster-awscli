@@ -121,4 +121,3 @@ push:
 
 # Complete workflow
 ci-cd: lint validate security-scan test
-	@echo "CI/CD pipeline completed successfully!"# Updated 20251109_123758

@@ -13,4 +13,3 @@ rules:
   brackets:
     max-spaces-inside: 1
   braces:
-    max-spaces-inside: 1# Updated 20251109_123758

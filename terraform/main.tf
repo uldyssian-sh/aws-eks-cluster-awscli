@@ -78,4 +78,3 @@ module "eks" {
 
 data "aws_availability_zones" "available" {
   state = "available"
-}# Updated 20251109_123758

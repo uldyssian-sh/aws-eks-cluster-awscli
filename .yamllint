@@ -5,4 +5,3 @@ rules:
     max: 120
   brackets: disable
   document-start: disable
-  truthy: disable# Updated 20251109_123758
