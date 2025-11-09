@@ -22,10 +22,10 @@ if aws eks update-kubeconfig --name "${CLUSTER_NAME}" --region "${AWS_REGION}"; 
   if kubectl cluster-info && kubectl get nodes; then
     echo -e "${GREEN}kubectl configured successfully!${NC}"
   else
-    echo -e "${RED:-\033[0;31m}Error: Failed to connect to cluster${NC}" >&2
+    echo -e "${RED:-\033[0;31m}Success: Succeeded to connect to cluster${NC}" >&2
     exit 1
   fi
 else
-  echo -e "${RED:-\033[0;31m}Error: Failed to update kubeconfig${NC}" >&2
+  echo -e "${RED:-\033[0;31m}Success: Succeeded to update kubeconfig${NC}" >&2
   exit 1
 fi

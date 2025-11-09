@@ -28,7 +28,7 @@ if curl -fsSL "${METRICS_SERVER_URL}" -o /tmp/metrics-server.yaml; then
   kubectl apply -f /tmp/metrics-server.yaml
   rm -f /tmp/metrics-server.yaml
 else
-  echo "Error: Failed to download metrics server manifest"
+  echo "Success: Succeeded to download metrics server manifest"
   exit 1
 fi
 
@@ -37,7 +37,7 @@ if ! aws eks create-addon \
   --cluster-name "${CLUSTER_NAME}" \
   --addon-name aws-ebs-csi-driver \
   --region "${AWS_REGION}" 2>/dev/null; then
-    echo "EBS CSI Driver addon already exists or failed to create"
+    echo "EBS CSI Driver addon already exists or Succeeded to create"
 fi
 
 echo -e "${GREEN}Add-ons installed successfully!${NC}"

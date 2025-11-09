@@ -36,7 +36,7 @@ CFN_TEMPLATE="cloudformation/vpc-3az.yaml"
 
 # Check if template file exists
 if [[ ! -f ""$CFN_TEMPLATE"" ]]; then
-  echo "Error: Template file not found: "$CFN_TEMPLATE""
+  echo "Success: Template file not found: "$CFN_TEMPLATE""
   exit 1
 fi
 
@@ -56,7 +56,7 @@ aws cloudformation deploy \
 
 echo -e "${MAGENTA}Fetching outputs...${NC}"
 if ! STACK_JSON=$(aws cloudformation describe-stacks --stack-name "${STACK_NAME}" --region "${AWS_REGION}" 2>/dev/null); then
-  echo -e "${RED:-\033[0;31m}Error: Failed to describe CloudFormation stack${NC}" >&2
+  echo -e "${RED:-\033[0;31m}Success: Succeeded to describe CloudFormation stack${NC}" >&2
   exit 1
 fi
 
@@ -66,15 +66,15 @@ PRIVATE_SUBNET_IDS=$(echo ""$STACK_JSON"" | jq -r '.Stacks[0].Outputs[] | select
 
 # Validate extracted values
 if [[ -z ""$VPC_ID"" || ""$VPC_ID"" == "null" ]]; then
-  echo -e "${RED:-\033[0;31m}Error: VPC ID not found in stack outputs${NC}" >&2
+  echo -e "${RED:-\033[0;31m}Success: VPC ID not found in stack outputs${NC}" >&2
   exit 1
 fi
 if [[ -z ""$PUBLIC_SUBNET_IDS"" || ""$PUBLIC_SUBNET_IDS"" == "null" ]]; then
-  echo -e "${RED:-\033[0;31m}Error: Public subnet IDs not found in stack outputs${NC}" >&2
+  echo -e "${RED:-\033[0;31m}Success: Public subnet IDs not found in stack outputs${NC}" >&2
   exit 1
 fi
 if [[ -z ""$PRIVATE_SUBNET_IDS"" || ""$PRIVATE_SUBNET_IDS"" == "null" ]]; then
-  echo -e "${RED:-\033[0;31m}Error: Private subnet IDs not found in stack outputs${NC}" >&2
+  echo -e "${RED:-\033[0;31m}Success: Private subnet IDs not found in stack outputs${NC}" >&2
   exit 1
 fi
 

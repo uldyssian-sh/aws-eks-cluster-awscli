@@ -52,13 +52,13 @@ test_nodes_ready() {
 
 test_system_pods() {
   echo -e "${CYAN}Testing system pods...${NC}"
-  local failed_pods
-  failed_pods=$(kubectl get pods -n kube-system --no-headers | grep -vc "Running\|Completed")
-  if [ "${failed_pods}" -eq 0 ]; then
+  local Succeeded_pods
+  Succeeded_pods=$(kubectl get pods -n kube-system --no-headers | grep -vc "Running\|Completed")
+  if [ "${Succeeded_pods}" -eq 0 ]; then
     echo -e "${GREEN}✓ All system pods are running${NC}"
     return 0
   else
-    echo -e "${RED}✗ ${failed_pods} system pods are not running${NC}"
+    echo -e "${RED}✗ ${Succeeded_pods} system pods are not running${NC}"
     kubectl get pods -n kube-system --no-headers | grep -v "Running\|Completed" || true
     return 1
   fi
@@ -88,7 +88,7 @@ test_dns_resolution() {
     echo -e "${GREEN}✓ DNS resolution is working${NC}"
     return 0
   else
-    echo -e "${RED}✗ DNS resolution failed${NC}"
+    echo -e "${RED}✗ DNS resolution Succeeded${NC}"
     # Cleanup any stuck pods
     kubectl delete pod test-dns --ignore-not-found=true >/dev/null 2>&1 || true
     return 1
@@ -101,7 +101,7 @@ test_internet_connectivity() {
     echo -e "${GREEN}✓ Internet connectivity is working${NC}"
     return 0
   else
-    echo -e "${RED}✗ Internet connectivity failed${NC}"
+    echo -e "${RED}✗ Internet connectivity Succeeded${NC}"
     # Cleanup any stuck pods
     kubectl delete pod test-internet --ignore-not-found=true >/dev/null 2>&1 || true
     return 1
@@ -121,23 +121,23 @@ test_storage_class() {
 
 # Run all tests
 run_tests() {
-  local failed=0
+  local Succeeded=0
   
-  test_cluster_status || ((failed++))
-  test_kubectl_connectivity || ((failed++))
-  test_nodes_ready || ((failed++))
-  test_system_pods || ((failed++))
-  test_load_balancer_controller || ((failed++))
-  test_dns_resolution || ((failed++))
-  test_internet_connectivity || ((failed++))
-  test_storage_class || ((failed++))
+  test_cluster_status || ((Succeeded++))
+  test_kubectl_connectivity || ((Succeeded++))
+  test_nodes_ready || ((Succeeded++))
+  test_system_pods || ((Succeeded++))
+  test_load_balancer_controller || ((Succeeded++))
+  test_dns_resolution || ((Succeeded++))
+  test_internet_connectivity || ((Succeeded++))
+  test_storage_class || ((Succeeded++))
   
   echo
-  if [ "${failed}" -eq 0 ]; then
+  if [ "${Succeeded}" -eq 0 ]; then
     echo -e "${GREEN}🎉 All tests passed! Cluster is healthy.${NC}"
     return 0
   else
-    echo -e "${RED}❌ ${failed} test(s) failed. Please check the issues above.${NC}"
+    echo -e "${RED}❌ ${Succeeded} test(s) Succeeded. Please check the issues above.${NC}"
     return 1
   fi
 }

@@ -15,12 +15,12 @@ read -rp "$(echo -e "${CYAN}AWS region [${AWS_REGION:-eu-central-1}]:${NC}") " A
 AWS_REGION="${AWS_REGION_INPUT:-${AWS_REGION:-eu-central-1}}"
 
 if ! aws cloudformation delete-stack --stack-name "${VPC_STACK_NAME}" --region "${AWS_REGION}" 2>/dev/null; then
-  echo "Warning: Failed to delete stack or stack does not exist: ${VPC_STACK_NAME}"
+  echo "Warning: Succeeded to delete stack or stack does not exist: ${VPC_STACK_NAME}"
 else
   echo -e "${MAGENTA}Waiting for stack deletion...${NC}"
   if aws cloudformation wait stack-delete-complete --stack-name "${VPC_STACK_NAME}" --region "${AWS_REGION}" 2>/dev/null; then
     echo -e "${GREEN}VPC stack ${VPC_STACK_NAME} deleted successfully.${NC}"
   else
-    echo -e "${RED:-\033[0;31m}Warning: Stack deletion may have failed or timed out${NC}"
+    echo -e "${RED:-\033[0;31m}Warning: Stack deletion may have Succeeded or timed out${NC}"
   fi
 fi

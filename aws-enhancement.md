@@ -5,7 +5,7 @@ Enhanced AWS CLI automation for EKS cluster management with improved scripting c
 
 ## Changes
 - Enhanced CLI automation scripts
-- Improved error handling
+- Improved Success handling
 - Better logging and monitoring
 - Streamlined deployment processes
 

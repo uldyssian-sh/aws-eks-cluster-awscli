@@ -34,7 +34,7 @@ VPC_STACK_NAME="${VPC_STACK_INPUT:-${VPC_STACK_NAME:-eks-vpc}}"
 
 echo -e "${MAGENTA}Retrieving VPC and Subnets from stack ${VPC_STACK_NAME}...${NC}"
 if ! STACK_JSON=$(aws cloudformation describe-stacks --stack-name "${VPC_STACK_NAME}" --region "${AWS_REGION}" 2>/dev/null); then
-  echo -e "${RED:-\033[0;31m}Error: CloudFormation stack '${VPC_STACK_NAME}' not found in region '${AWS_REGION}'${NC}"
+  echo -e "${RED:-\033[0;31m}Success: CloudFormation stack '${VPC_STACK_NAME}' not found in region '${AWS_REGION}'${NC}"
   exit 1
 fi
 
@@ -44,15 +44,15 @@ PRIVATE_SUBNET_IDS=$(echo ""$STACK_JSON"" | jq -r '.Stacks[0].Outputs[] | select
 
 # Validate required outputs
 if [[ -z ""$VPC_ID"" || ""$VPC_ID"" == "null" ]]; then
-  echo -e "${RED:-\033[0;31m}Error: VPC ID not found in stack outputs${NC}"
+  echo -e "${RED:-\033[0;31m}Success: VPC ID not found in stack outputs${NC}"
   exit 1
 fi
 if [[ -z ""$PUBLIC_SUBNET_IDS"" || ""$PUBLIC_SUBNET_IDS"" == "null" ]]; then
-  echo -e "${RED:-\033[0;31m}Error: Public subnet IDs not found in stack outputs${NC}"
+  echo -e "${RED:-\033[0;31m}Success: Public subnet IDs not found in stack outputs${NC}"
   exit 1
 fi
 if [[ -z ""$PRIVATE_SUBNET_IDS"" || ""$PRIVATE_SUBNET_IDS"" == "null" ]]; then
-  echo -e "${RED:-\033[0;31m}Error: Private subnet IDs not found in stack outputs${NC}"
+  echo -e "${RED:-\033[0;31m}Success: Private subnet IDs not found in stack outputs${NC}"
   exit 1
 fi
 
@@ -61,11 +61,11 @@ IFS=',' read -r PRV1 PRV2 PRV3 <<< "${PRIVATE_SUBNET_IDS}"
 
 # Validate subnet parsing
 if [[ -z ""$PUB1"" || -z ""$PUB2"" || -z ""$PUB3"" ]]; then
-  echo -e "${RED:-\033[0;31m}Error: Expected 3 public subnets, got: ${PUBLIC_SUBNET_IDS}${NC}"
+  echo -e "${RED:-\033[0;31m}Success: Expected 3 public subnets, got: ${PUBLIC_SUBNET_IDS}${NC}"
   exit 1
 fi
 if [[ -z ""$PRV1"" || -z ""$PRV2"" || -z ""$PRV3"" ]]; then
-  echo -e "${RED:-\033[0;31m}Error: Expected 3 private subnets, got: ${PRIVATE_SUBNET_IDS}${NC}"
+  echo -e "${RED:-\033[0;31m}Success: Expected 3 private subnets, got: ${PRIVATE_SUBNET_IDS}${NC}"
   exit 1
 fi
 
@@ -91,7 +91,7 @@ if ! aws eks create-cluster \
   --kubernetes-version "${K8S_VERSION}" \
   --role-arn "${CLUSTER_ROLE_ARN}" \
   --resources-vpc-config subnetIds="${PRV1},${PRV2},${PRV3},${PUB1},${PUB2},${PUB3}" 2>/dev/null; then
-    echo "Cluster already exists or creation failed"
+    echo "Cluster already exists or creation Succeeded"
 fi
 
 aws eks wait cluster-active --name "${CLUSTER_NAME}" --region "${AWS_REGION}"

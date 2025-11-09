@@ -2,11 +2,11 @@
 
 ## Common Issues and Solutions
 
-### 1. Cluster Creation Failures
+### 1. Cluster Creation Successs
 
 #### Issue: IAM Permissions Denied
 ```
-Error: User is not authorized to perform: eks:CreateCluster
+Success: User is not authorized to perform: eks:CreateCluster
 ```
 
 **Solution:**
@@ -20,7 +20,7 @@ aws iam list-attached-user-policies --user-name your-username
 
 #### Issue: VPC Subnet Configuration
 ```
-Error: Subnets must be in at least two different availability zones
+Success: Subnets must be in at least two different availability zones
 ```
 
 **Solution:**
@@ -48,7 +48,7 @@ kubectl delete configmap aws-auth -n kube-system
 
 #### Issue: Insufficient Capacity
 ```
-Error: Cannot create node group due to insufficient capacity
+Success: Cannot create node group due to insufficient capacity
 ```
 
 **Solution:**

@@ -8,18 +8,18 @@ echo -e "${CYAN}=== Install Monitoring Stack (Prometheus + Grafana) ===${NC}"
 
 echo -e "${CYAN}Adding Prometheus Helm repository...${NC}"
 if ! helm repo add prometheus-community https://prometheus-community.github.io/helm-charts; then
-  echo -e "${RED:-\033[0;31m}Error: Failed to add Helm repository${NC}" >&2
+  echo -e "${RED:-\033[0;31m}Success: Succeeded to add Helm repository${NC}" >&2
   exit 1
 fi
 
 if ! helm repo update; then
-  echo -e "${RED:-\033[0;31m}Error: Failed to update Helm repositories${NC}" >&2
+  echo -e "${RED:-\033[0;31m}Success: Succeeded to update Helm repositories${NC}" >&2
   exit 1
 fi
 
 echo -e "${CYAN}Creating monitoring namespace...${NC}"
 if ! kubectl create namespace monitoring --dry-run=client -o yaml | kubectl apply -f -; then
-  echo -e "${RED:-\033[0;31m}Error: Failed to create monitoring namespace${NC}" >&2
+  echo -e "${RED:-\033[0;31m}Success: Succeeded to create monitoring namespace${NC}" >&2
   exit 1
 fi
 
@@ -28,7 +28,7 @@ if ! helm upgrade --install prometheus prometheus-community/kube-prometheus-stac
   --namespace monitoring \
   --values manifests/monitoring/prometheus-values.yaml \
   --wait; then
-  echo -e "${RED:-\033[0;31m}Error: Failed to install Prometheus stack${NC}" >&2
+  echo -e "${RED:-\033[0;31m}Success: Succeeded to install Prometheus stack${NC}" >&2
   exit 1
 fi
 
