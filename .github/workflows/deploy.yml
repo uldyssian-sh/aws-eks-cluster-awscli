@@ -11,3 +11,12 @@ permissions:
   security-events: write
   actions: read
 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - name: Deploy validation
+      run: |
+        echo "Deploy workflow completed"
+        echo "Repository: ${{ github.repository }}"

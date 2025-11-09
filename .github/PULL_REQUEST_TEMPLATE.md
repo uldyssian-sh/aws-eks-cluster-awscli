@@ -14,4 +14,3 @@ Brief description of changes made.
 ## Checklist
 - [ ] Code follows project style guidelines
 - [ ] Self-review completed
-- [ ] Documentation updated if needed
