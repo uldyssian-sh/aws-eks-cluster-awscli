@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Manual discussion creation script
 echo "Manual Discussion Creation Required"
@@ -33,8 +34,8 @@ repos=(
 )
 
 for repo in "${repos[@]}"; do
-  echo "Repository: $repo"
-  echo "URL: https://github.com/uldyssian-sh/$repo/discussions/new"
+  echo "Repository: "$repo""
+  echo "URL: https://github.com/uldyssian-sh/"$repo"/discussions/new"
   echo "Copy content from all_discussions.md for this repository"
   echo "---"
 done

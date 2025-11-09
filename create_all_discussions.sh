@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 echo "GitHub Discussion Creation URLs:"
 echo "================================"
 
@@ -29,7 +30,7 @@ repos=(
 GITHUB_USER="${GITHUB_USER:-uldyssian-sh}"
 
 for repo in "${repos[@]}"; do
-  echo "https://github.com/$GITHUB_USER/$repo/discussions/new"
+  echo "https://github.com/"$GITHUB_USER"/"$repo"/discussions/new"
 done
 
 echo ""

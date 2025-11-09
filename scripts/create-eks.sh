@@ -38,20 +38,20 @@ if ! STACK_JSON=$(aws cloudformation describe-stacks --stack-name "${VPC_STACK_N
   exit 1
 fi
 
-VPC_ID=$(echo "$STACK_JSON" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="VpcId") | .OutputValue')
-PUBLIC_SUBNET_IDS=$(echo "$STACK_JSON" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="PublicSubnetIds") | .OutputValue')
-PRIVATE_SUBNET_IDS=$(echo "$STACK_JSON" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="PrivateSubnetIds") | .OutputValue')
+VPC_ID=$(echo ""$STACK_JSON"" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="VpcId") | .OutputValue')
+PUBLIC_SUBNET_IDS=$(echo ""$STACK_JSON"" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="PublicSubnetIds") | .OutputValue')
+PRIVATE_SUBNET_IDS=$(echo ""$STACK_JSON"" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="PrivateSubnetIds") | .OutputValue')
 
 # Validate required outputs
-if [[ -z "$VPC_ID" || "$VPC_ID" == "null" ]]; then
+if [[ -z ""$VPC_ID"" || ""$VPC_ID"" == "null" ]]; then
   echo -e "${RED:-\033[0;31m}Error: VPC ID not found in stack outputs${NC}"
   exit 1
 fi
-if [[ -z "$PUBLIC_SUBNET_IDS" || "$PUBLIC_SUBNET_IDS" == "null" ]]; then
+if [[ -z ""$PUBLIC_SUBNET_IDS"" || ""$PUBLIC_SUBNET_IDS"" == "null" ]]; then
   echo -e "${RED:-\033[0;31m}Error: Public subnet IDs not found in stack outputs${NC}"
   exit 1
 fi
-if [[ -z "$PRIVATE_SUBNET_IDS" || "$PRIVATE_SUBNET_IDS" == "null" ]]; then
+if [[ -z ""$PRIVATE_SUBNET_IDS"" || ""$PRIVATE_SUBNET_IDS"" == "null" ]]; then
   echo -e "${RED:-\033[0;31m}Error: Private subnet IDs not found in stack outputs${NC}"
   exit 1
 fi
@@ -60,11 +60,11 @@ IFS=',' read -r PUB1 PUB2 PUB3 <<< "${PUBLIC_SUBNET_IDS}"
 IFS=',' read -r PRV1 PRV2 PRV3 <<< "${PRIVATE_SUBNET_IDS}"
 
 # Validate subnet parsing
-if [[ -z "$PUB1" || -z "$PUB2" || -z "$PUB3" ]]; then
+if [[ -z ""$PUB1"" || -z ""$PUB2"" || -z ""$PUB3"" ]]; then
   echo -e "${RED:-\033[0;31m}Error: Expected 3 public subnets, got: ${PUBLIC_SUBNET_IDS}${NC}"
   exit 1
 fi
-if [[ -z "$PRV1" || -z "$PRV2" || -z "$PRV3" ]]; then
+if [[ -z ""$PRV1"" || -z ""$PRV2"" || -z ""$PRV3"" ]]; then
   echo -e "${RED:-\033[0;31m}Error: Expected 3 private subnets, got: ${PRIVATE_SUBNET_IDS}${NC}"
   exit 1
 fi
@@ -214,7 +214,7 @@ kubectl -n kube-system rollout status deploy/aws-load-balancer-controller
 # Tag subnets for cluster usage (shared)
 echo -e "${MAGENTA}Tagging subnets for cluster discovery...${NC}"
 for SUBNET in ${PUBLIC_SUBNET_IDS//,/ } ${PRIVATE_SUBNET_IDS//,/ }; do
-  aws ec2 create-tags --resources "$SUBNET" --tags "Key=kubernetes.io/cluster/${CLUSTER_NAME},Value=shared" --region "${AWS_REGION}" >/dev/null || true
+  aws ec2 create-tags --resources ""$SUBNET"" --tags "Key=kubernetes.io/cluster/${CLUSTER_NAME},Value=shared" --region "${AWS_REGION}" >/dev/null || true
 done
 
 mkdir -p artifacts

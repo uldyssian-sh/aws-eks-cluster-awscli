@@ -57,7 +57,7 @@ aws eks wait cluster-deleted --name "${CLUSTER_NAME}" --region "${AWS_REGION}" |
 echo -e "${MAGENTA}Deleting IAM roles for Cluster and Nodes...${NC}"
 # Detach and delete node role
 for POLICY in AmazonEKSWorkerNodePolicy AmazonEC2ContainerRegistryReadOnly AmazonEKS_CNI_Policy; do
-  aws iam detach-role-policy --role-name "${NODE_ROLE_NAME}" --policy-arn arn:aws:iam::aws:policy/$POLICY || true
+  aws iam detach-role-policy --role-name "${NODE_ROLE_NAME}" --policy-arn arn:aws:iam::aws:policy/"$POLICY" || true
 done
 aws iam delete-role --role-name "${NODE_ROLE_NAME}" || true
 
@@ -68,7 +68,7 @@ aws iam delete-role --role-name "${CLUSTER_ROLE_NAME}" || true
 echo -e "${MAGENTA}Removing cluster tags from subnets...${NC}"
 if [ -n "${PUBLIC_SUBNET_IDS:-}" ] && [ -n "${PRIVATE_SUBNET_IDS:-}" ]; then
   for SUBNET in ${PUBLIC_SUBNET_IDS//,/ } ${PRIVATE_SUBNET_IDS//,/ }; do
-    aws ec2 delete-tags --resources "$SUBNET" --tags "Key=kubernetes.io/cluster/${CLUSTER_NAME}" --region "${AWS_REGION}" || true
+    aws ec2 delete-tags --resources ""$SUBNET"" --tags "Key=kubernetes.io/cluster/${CLUSTER_NAME}" --region "${AWS_REGION}" || true
   done
 fi
 

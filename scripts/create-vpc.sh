@@ -27,16 +27,16 @@ PUB_CIDRS_DEFAULT="10.0.0.0/24,10.0.1.0/24,10.0.2.0/24"
 PRV_CIDRS_DEFAULT="10.0.100.0/24,10.0.101.0/24,10.0.102.0/24"
 
 read -rp "$(echo -e "${CYAN}Public subnet CIDRs [${PUB_CIDRS_DEFAULT}]:${NC}") " PUBLIC_CIDRS
-PUBLIC_CIDRS="${PUBLIC_CIDRS:-$PUB_CIDRS_DEFAULT}"
+PUBLIC_CIDRS="${PUBLIC_CIDRS:-"$PUB_CIDRS_DEFAULT"}"
 
 read -rp "$(echo -e "${CYAN}Private subnet CIDRs [${PRV_CIDRS_DEFAULT}]:${NC}") " PRIVATE_CIDRS
-PRIVATE_CIDRS="${PRIVATE_CIDRS:-$PRV_CIDRS_DEFAULT}"
+PRIVATE_CIDRS="${PRIVATE_CIDRS:-"$PRV_CIDRS_DEFAULT"}"
 
 CFN_TEMPLATE="cloudformation/vpc-3az.yaml"
 
 # Check if template file exists
-if [[ ! -f "$CFN_TEMPLATE" ]]; then
-  echo "Error: Template file not found: $CFN_TEMPLATE"
+if [[ ! -f ""$CFN_TEMPLATE"" ]]; then
+  echo "Error: Template file not found: "$CFN_TEMPLATE""
   exit 1
 fi
 
@@ -60,20 +60,20 @@ if ! STACK_JSON=$(aws cloudformation describe-stacks --stack-name "${STACK_NAME}
   exit 1
 fi
 
-VPC_ID=$(echo "$STACK_JSON" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="VpcId") | .OutputValue')
-PUBLIC_SUBNET_IDS=$(echo "$STACK_JSON" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="PublicSubnetIds") | .OutputValue')
-PRIVATE_SUBNET_IDS=$(echo "$STACK_JSON" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="PrivateSubnetIds") | .OutputValue')
+VPC_ID=$(echo ""$STACK_JSON"" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="VpcId") | .OutputValue')
+PUBLIC_SUBNET_IDS=$(echo ""$STACK_JSON"" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="PublicSubnetIds") | .OutputValue')
+PRIVATE_SUBNET_IDS=$(echo ""$STACK_JSON"" | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="PrivateSubnetIds") | .OutputValue')
 
 # Validate extracted values
-if [[ -z "$VPC_ID" || "$VPC_ID" == "null" ]]; then
+if [[ -z ""$VPC_ID"" || ""$VPC_ID"" == "null" ]]; then
   echo -e "${RED:-\033[0;31m}Error: VPC ID not found in stack outputs${NC}" >&2
   exit 1
 fi
-if [[ -z "$PUBLIC_SUBNET_IDS" || "$PUBLIC_SUBNET_IDS" == "null" ]]; then
+if [[ -z ""$PUBLIC_SUBNET_IDS"" || ""$PUBLIC_SUBNET_IDS"" == "null" ]]; then
   echo -e "${RED:-\033[0;31m}Error: Public subnet IDs not found in stack outputs${NC}" >&2
   exit 1
 fi
-if [[ -z "$PRIVATE_SUBNET_IDS" || "$PRIVATE_SUBNET_IDS" == "null" ]]; then
+if [[ -z ""$PRIVATE_SUBNET_IDS"" || ""$PRIVATE_SUBNET_IDS"" == "null" ]]; then
   echo -e "${RED:-\033[0;31m}Error: Private subnet IDs not found in stack outputs${NC}" >&2
   exit 1
 fi
