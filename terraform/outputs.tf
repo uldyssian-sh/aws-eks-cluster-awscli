@@ -38,3 +38,4 @@ output "public_subnets" {
   description = "List of IDs of public subnets"
   value       = module.vpc.public_subnets
 }# Updated Sun Nov  9 12:52:14 CET 2025
+# Updated Sun Nov  9 12:56:45 CET 2025

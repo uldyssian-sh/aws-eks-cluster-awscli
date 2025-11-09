@@ -43,3 +43,4 @@ echo "Username: admin"
 echo "Get password with: kubectl get secret -n monitoring prometheus-grafana -o jsonpath='{.data.admin-password}' | base64 -d"
 echo "IMPORTANT: Change the default password after first login!"# Updated Sun Nov  9 12:50:10 CET 2025
 # Updated Sun Nov  9 12:52:14 CET 2025
+# Updated Sun Nov  9 12:56:45 CET 2025
