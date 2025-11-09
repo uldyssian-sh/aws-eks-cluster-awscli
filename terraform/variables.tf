@@ -62,4 +62,4 @@ variable "environment" {
   description = "Environment name"
   type        = string
   default     = "development"
-}
+}# Updated Sun Nov  9 12:52:14 CET 2025
