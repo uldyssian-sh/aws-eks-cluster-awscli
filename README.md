@@ -1,5 +1,11 @@
 # AWS EKS Cluster with AWS CLI
 
+[![License](https://img.shields.io/github/license/uldyssian-sh/aws-eks-cluster-awscli?style=flat-square)](LICENSE)
+[![Status](https://img.shields.io/badge/status-active-brightgreen?style=flat-square)](#)
+[![Languages](https://img.shields.io/github/languages/count/uldyssian-sh/aws-eks-cluster-awscli?style=flat-square)](#)
+[![Size](https://img.shields.io/github/repo-size/uldyssian-sh/aws-eks-cluster-awscli?style=flat-square)](#)
+[![Security Scan](https://img.shields.io/badge/security-scanned-green?style=flat-square)](#)
+
 [![CI](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/workflows/CI/badge.svg)](https://github.com/uldyssian-sh/aws-eks-cluster-awscli/actions)
 [![AWS](https://img.shields.io/badge/AWS-EKS-orange.svg)](https://aws.amazon.com/eks/)
 
