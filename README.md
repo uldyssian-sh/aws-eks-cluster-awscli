@@ -178,7 +178,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [AWS EKS Kasten](https://github.com/uldyssian-sh/aws-eks-cluster-kasten)
 - [Enterprise EKS Multi-AZ](https://github.com/uldyssian-sh/enterprise-eks-multi-az-cluster)
 
----
 
-**Note**: This project follows AWS Well-Architected Framework principles and GitHub DevOps professional standards.
 
