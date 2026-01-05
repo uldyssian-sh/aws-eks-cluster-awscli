@@ -176,7 +176,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🔗 Related Projects
 
 - [AWS EKS Kasten](https://github.com/uldyssian-sh/aws-eks-cluster-kasten)
-- [Enterprise EKS Multi-AZ](https://github.com/uldyssian-sh/enterprise-eks-multi-az-cluster)
+- [Enterprise EKS Multi-AZ](https://github.com/uldyssian-sh/aws-eks-ent-multi-az-cluster)
 
 ---
 
